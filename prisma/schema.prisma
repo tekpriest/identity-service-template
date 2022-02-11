@@ -1,0 +1,40 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions", "fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String      @id @default(cuid())
+  email       String      @unique
+  password    String?
+  isActive    Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime?
+  deletedAt   DateTime?
+  role        Role        @default(user)
+  country     String?
+  phoneNumber String      @unique
+  isVerified  Boolean     @default(false)
+  dob         DateTime?
+  firstName   String?
+  lastName    String?
+  authTokens  AuthToken[]
+}
+
+model AuthToken {
+  token     String   @id
+  createdAt DateTime @default(now())
+  ip        String?
+  ownerId   String
+  owner     User     @relation(fields: [ownerId], references: [id])
+}
+
+enum Role {
+  user
+  admin
+}

@@ -1,0 +1,54 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "monorepo": true,
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "@nestjs/swagger",
+        "options": {
+          "introspectComments": true
+        }
+      }
+    ],
+    "webpack": true
+  },
+  "projects": {
+    "email-library": {
+      "type": "library",
+      "root": "libs/email-library",
+      "entryFile": "index",
+      "sourceRoot": "libs/email-library/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/email-library/tsconfig.lib.json"
+      }
+    },
+    "sms-library": {
+      "type": "library",
+      "root": "libs/sms-library",
+      "entryFile": "index",
+      "sourceRoot": "libs/sms-library/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/sms-library/tsconfig.lib.json"
+      }
+    },
+    "notification": {
+      "type": "library",
+      "root": "libs/notification",
+      "entryFile": "index",
+      "sourceRoot": "libs/notification/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/notification/tsconfig.lib.json"
+      }
+    },
+    "file-uploader": {
+      "type": "library",
+      "root": "libs/file-uploader",
+      "entryFile": "index",
+      "sourceRoot": "libs/file-uploader/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/file-uploader/tsconfig.lib.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,51 @@
+version: '3.1'
+
+services:
+  auth-service:
+    image: auth-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+      - redis
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DATABASE_DB: auth_service_db
+      DATABASE_PASSWORD: password
+      DB_USERNAME: postgres
+    networks:
+      - auth_service_network
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: auth_service_db
+    ports:
+      - 5433:5432
+    volumes:
+      - ./db/initdb:/docker-entrypoint-initdb.d
+      - ./auth-service-db-data:/var/lib/postgresql/data
+    networks:
+      - auth_service_network
+
+  redis:
+    image: redis:5.0
+    restart: always
+    environment:
+      REDIS_PASSWORD: password
+    ports:
+      - 3040:6379
+    command: ['sh', '-c', 'exec redis-server --requirepass "$$REDIS_PASSWORD"']
+
+volumes:
+  auth-service-db-data:
+    driver: local
+
+networks:
+  auth_service_network:
+    name: auth_service_network

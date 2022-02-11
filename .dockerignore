@@ -1,0 +1,3 @@
+node_modules/
+.aws/
+auth-service-db-data/
